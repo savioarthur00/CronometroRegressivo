@@ -40,6 +40,10 @@ comecar.addEventListener('click', function () {
                 // Quando chegar a -0:60, vira -1:00
                 minutoAtual = -1;
                 segundoAtual = 0;
+            } else if (minutoAtual < 0 && segundoAtual === -60) {
+                // A cada 60 segundos negativos, incrementa um minuto negativo
+                minutoAtual--;
+                segundoAtual = 0;
             }
             
             // Adiciona a classe 'negativo' ao elemento h3 quando o tempo é negativo
