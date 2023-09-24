@@ -4,7 +4,7 @@ var segundos = document.getElementById('segundos');
 var comecar = document.getElementById('comecar');
 var parar = document.getElementById('parar');
 var container = document.querySelector('.timer');
-var cronometro = document.querySelector('h3'); // Seleciona o elemento h3
+var cronometro = document.querySelector('h3');
 var minutoAtual;
 var segundoAtual;
 var interval;
@@ -17,10 +17,16 @@ for (var i = 0; i <= 60; i++) {
     segundos.innerHTML += '<option value=' + i + '>' + i + '</option>';
 }
 
+function formatTime(minutos, segundos) {
+    var formattedMinutos = (minutos < 0 ? '-' : '') + Math.abs(minutos);
+    var formattedSegundos = Math.abs(segundos);
+    return formattedMinutos + ': ' + formattedSegundos;
+}
+
 comecar.addEventListener('click', function () {
     minutoAtual = parseInt(minutos.value);
     segundoAtual = parseInt(segundos.value);
-    display.childNodes[1].innerHTML = minutoAtual + ": " + segundoAtual;
+    display.childNodes[1].innerHTML = formatTime(minutoAtual, segundoAtual);
 
     interval = setInterval(function () {
         container.style.display = 'none';
@@ -30,13 +36,17 @@ comecar.addEventListener('click', function () {
             if (minutoAtual > 0) {
                 minutoAtual--;
                 segundoAtual = 59;
+            } else if (minutoAtual === 0 && segundoAtual === -60) {
+                // Quando chegar a -0:60, vira -1:00
+                minutoAtual = -1;
+                segundoAtual = 0;
             }
             
             // Adiciona a classe 'negativo' ao elemento h3 quando o tempo é negativo
             cronometro.classList.add('negativo');
         }
 
-        display.childNodes[1].innerHTML = minutoAtual + ": " + segundoAtual;
+        display.childNodes[1].innerHTML = formatTime(minutoAtual, segundoAtual);
     }, 1000);
 });
 
