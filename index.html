@@ -18,7 +18,7 @@
             width: 100px;
             height: 100px;
             font-size: 0.5em;
-            color: rgb(0, 0, 0);
+            color: #000000;
             background-color: #ffffff;
             display: inline-block;
         }
@@ -60,13 +60,14 @@
             color: #333;
         }
 
+        /* Alteração para números do cronômetro serem brancos desde o início */
         .time {
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 10px;
             margin-right: 10px;
-            color: #172953;
+            color: #fff;
             min-width: 90px;
         }
 
@@ -118,11 +119,6 @@
             width: 70px;
             height: 70px;
         }
-
-        
-
-
-      
     </style>
 </head>
 <body>
@@ -144,8 +140,6 @@
         <div id="display" class="display">
             <h3></h3>
         </div>
-        
-        
     <script>
         // JavaScript inline
         var display = document.getElementById('display');
@@ -154,12 +148,9 @@
         var comecar = document.getElementById('comecar');
         var container = document.querySelector('.timer');
         var cronometro = document.querySelector('h3');
-       
         var minutoAtual;
         var segundoAtual;
         var interval;
-
-       
 
         for (var i = 0; i <= 60; i++) {
             minutos.innerHTML += '<option value=' + i + '>' + i + '</option>';
@@ -182,9 +173,9 @@
 
             interval = setInterval(function () {
                 container.style.display = 'none';
-                
-                
                 segundoAtual--;
+                
+               
 
                 if (segundoAtual < 0) {
                     if (minutoAtual > 0) {
@@ -194,33 +185,21 @@
                         // Quando chegar a -0:60, vira -1:00
                         minutoAtual = -1;
                         segundoAtual = 0;
-                        esgotado.style.display = 'block'; // Exibe a mensagem
-                        
                     } else if (minutoAtual < 0 && segundoAtual === -60) {
                         // A cada 60 segundos negativos, incrementa um minuto negativo
                         minutoAtual--;
                         segundoAtual = 0;
-                        esgotado.style.display = 'block'; // Exibe a mensagem
-                        
                     }
 
                     // Adiciona a classe 'negativo' ao elemento h3 quando o tempo é negativo
-                    cronometro.classList.add('negativo');
+                    if(segundoAtual <=0 && minutoAtual<=0){
+                        cronometro.classList.add('negativo');
+                    }
+                    
                 }
 
                 display.childNodes[1].innerHTML = formatTime(minutoAtual, segundoAtual);
             }, 1000);
-        });
-
-        reativarBtn.addEventListener('click', function () {
-            // Ocultar a mensagem e o botão de reativar
-            mensagem.style.display = 'none';
-            reativarBtn.style.display = 'none';
-
-            // Reiniciar o display com valores padrão
-            minutos.value = '0';
-            segundos.value = '0';
-            display.childNodes[1].innerHTML = '0: 0';
         });
     </script>
 </body>
