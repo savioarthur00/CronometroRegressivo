@@ -1,19 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cronometro</title> 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronômetro</title> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/Regressivo/styles.css" />    
-  </head>
-
-<body>
+    <style>
+        /* CSS inline */
+        * {
+    font-family: "Orbitron", sans-serif;
+    padding: 0;
+    margin: 0;
+    size: 400px;
     
+  }
+
+  select{
+    width: 100px;
+    height: 100px;
+    font-size: 0.5em;
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    display: inline-block;
+}
+
+
+button{
+  background: rgb(253, 253, 253);
+  color:rgb(10, 10, 10);
+  font-size: 32px;
+  padding:8px 20px;
+  cursor: pointer;
+  border:0;
+  margin-left: 10px;
+}
+
+
+h3{
+  font-size: 150px;
+  text-align: center;
+  color: rgb(255, 254, 254);
+}
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    height: 100vh;
+    padding-top: 3rem;
+    background-color: #000000;
+  }
+  
+  .container h1 {
+    color: #175cff;
+  }
+  
+  .timer {
+    display: flex;
+    font-size: 55px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin-right: 10px;
+    color: #172953;
+    min-width: 90px;
+  }
+  
+  .separator {
+    font-size: 60px;
+    padding: 0 10px;
+    color: #525763;
+  }
+  
+  #milliseconds {
+    font-size: 30px;
+    color: #525763;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .btn:hover {
+    transform: scale(1.1);
+  }
+  
+  #startBtn {
+    background-color: #175cff;
+    color: #fff;
+  }
+
+  
+.negativo {
+  color: red; /* Cor vermelha para o texto negativo */
+}
+
+.display{
+  display: inline-flex;
+  
+}
+
+.pause{
+ margin-left: 50px;
+  width: 70px;
+  height: 70px;
+}
+
+    </style>
+</head>
+<body>
     <div class="container">
         <h2>TEMPO:</h2>
-
         <div class="timer">
             <div class="time" id="minutes">
                 <select id="minutos" name="minutos"></select>
@@ -22,31 +138,70 @@
             <div class="time" id="seconds">
                 <select id="segundos" name="segundos"></select>
             </div>
-            
             <div>
-                
                 <button id="comecar"><i class="fas fa-play"></i> </button> 
-                  
             </div>
-                               
-
-            </div>
-       
-
-            
-                
-             
-
+        </div>
         <div id="display" class="display">
             <h3></h3>
-            
-             
-            
         </div>
     </div>
+    <script>
+        // JavaScript inline
+        var display = document.getElementById('display');
+        var minutos = document.getElementById('minutos');
+        var segundos = document.getElementById('segundos');
+        var comecar = document.getElementById('comecar');
+        var container = document.querySelector('.timer');
+        var cronometro = document.querySelector('h3');
+        var minutoAtual;
+        var segundoAtual;
+        var interval;
 
-    <script src="alarme.js"></script>
+        for (var i = 0; i <= 60; i++) {
+            minutos.innerHTML += '<option value=' + i + '>' + i + '</option>';
+        }
 
+        for (var i = 0; i <= 60; i++) {
+            segundos.innerHTML += '<option value=' + i + '>' + i + '</option>';
+        }
+
+        function formatTime(minutos, segundos) {
+            var formattedMinutos = (minutos < 0 ? '-' : '') + Math.abs(minutos);
+            var formattedSegundos = Math.abs(segundos);
+            return formattedMinutos + ': ' + formattedSegundos;
+        }
+
+        comecar.addEventListener('click', function () {
+            minutoAtual = parseInt(minutos.value);
+            segundoAtual = parseInt(segundos.value);
+            display.childNodes[1].innerHTML = formatTime(minutoAtual, segundoAtual);
+
+            interval = setInterval(function () {
+                container.style.display = 'none';
+                segundoAtual--;
+
+                if (segundoAtual < 0) {
+                    if (minutoAtual > 0) {
+                        minutoAtual--;
+                        segundoAtual = 59;
+                    } else if (minutoAtual === 0 && segundoAtual === -60) {
+                        // Quando chegar a -0:60, vira -1:00
+                        minutoAtual = -1;
+                        segundoAtual = 0;
+                    } else if (minutoAtual < 0 && segundoAtual === -60) {
+                        // A cada 60 segundos negativos, incrementa um minuto negativo
+                        minutoAtual--;
+                        segundoAtual = 0;
+                    }
+                    
+                    // Adiciona a classe 'negativo' ao elemento h3 quando o tempo é negativo
+                    cronometro.classList.add('negativo');
+                }
+
+                display.childNodes[1].innerHTML = formatTime(minutoAtual, segundoAtual);
+            }, 1000);
+        });
+    </script>
 </body>
-
 </html>
