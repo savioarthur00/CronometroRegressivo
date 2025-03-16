@@ -15,17 +15,20 @@
         }
 
         select {
-            width: 100px;
-            height: 100px;
-            font-size: 0.5em;
+            width: 150px; /* Aumentei o tamanho */
+            height: 50px; /* Aumentei o tamanho */
+            font-size: 1.2em; /* Aumentei o tamanho da fonte */
             color: #000000;
             background-color: #ffffff;
             display: inline-block;
+            border: 2px solid #175cff; /* Adicionei uma borda */
+            border-radius: 10px; /* Bordas arredondadas */
+            text-align: center; /* Centralizei o texto */
         }
 
         button {
             background: rgb(253, 253, 253);
-            color:rgb(10, 10, 10);
+            color: rgb(10, 10, 10);
             font-size: 32px;
             padding: 8px 20px;
             cursor: pointer;
@@ -34,9 +37,10 @@
         }
 
         h3 {
-            font-size: 450px;
+            font-size: 200px; /* Reduzi o tamanho para melhorar a legibilidade */
             text-align: center;
             color: rgb(255, 254, 254);
+            margin: 0;
         }
 
         .container {
@@ -58,9 +62,9 @@
             font-size: 55px;
             font-weight: bold;
             color: #333;
+            align-items: center;
         }
 
-        /* Alteração para números do cronômetro serem brancos desde o início */
         .time {
             display: flex;
             align-items: center;
@@ -161,9 +165,9 @@
         }
 
         function formatTime(minutos, segundos) {
-            var formattedMinutos = (minutos < 0 ? '-' : '') + Math.abs(minutos);
-            var formattedSegundos = Math.abs(segundos);
-            return formattedMinutos + ': ' + formattedSegundos;
+            var formattedMinutos = (minutos < 0 ? '-' : '') + Math.abs(minutos).toString().padStart(2, '0');
+            var formattedSegundos = Math.abs(segundos).toString().padStart(2, '0');
+            return formattedMinutos + ':' + formattedSegundos;
         }
 
         comecar.addEventListener('click', function () {
@@ -174,8 +178,6 @@
             interval = setInterval(function () {
                 container.style.display = 'none';
                 segundoAtual--;
-                
-               
 
                 if (segundoAtual < 0) {
                     if (minutoAtual > 0) {
@@ -192,10 +194,9 @@
                     }
 
                     // Adiciona a classe 'negativo' ao elemento h3 quando o tempo é negativo
-                    if(segundoAtual <=0 && minutoAtual<=0){
+                    if (segundoAtual <= 0 && minutoAtual <= 0) {
                         cronometro.classList.add('negativo');
                     }
-                    
                 }
 
                 display.childNodes[1].innerHTML = formatTime(minutoAtual, segundoAtual);
