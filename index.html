@@ -43,6 +43,14 @@
             margin: 0;
         }
 
+        h4 {
+            font-size: 40px;
+            color: yellow; /* Cor amarela para a mensagem */
+            text-align: center;
+            margin: 0;
+            display: none; /* Inicialmente oculto */
+        }
+
         .container {
             display: flex;
             flex-direction: column;
@@ -141,6 +149,7 @@
                 <button id="comecar"><i class="fas fa-play"></i> </button>
             </div>
         </div>
+        <h4 id="mensagem">Seu tempo acabou! </h4>
         <div id="display" class="display">
             <h3></h3>
         </div>
@@ -152,6 +161,7 @@
         var comecar = document.getElementById('comecar');
         var container = document.querySelector('.timer');
         var cronometro = document.querySelector('h3');
+        var mensagem = document.getElementById('mensagem');
         var minutoAtual;
         var segundoAtual;
         var interval;
@@ -196,6 +206,7 @@
                     // Adiciona a classe 'negativo' ao elemento h3 quando o tempo é negativo
                     if (minutoAtual < 0 || (minutoAtual === 0 && segundoAtual < 0)) {
                         cronometro.classList.add('negativo');
+                        mensagem.style.display = 'block'; // Mostra a mensagem
                     }
                 }
 
