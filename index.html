@@ -15,8 +15,8 @@
         }
 
         select {
-            width: 150px; /* Aumentei o tamanho */
-            height: 50px; /* Aumentei o tamanho */
+            width: 200px; /* Aumentei a largura */
+            height: 50px; /* Aumentei a altura */
             font-size: 1.2em; /* Aumentei o tamanho da fonte */
             color: #000000;
             background-color: #ffffff;
@@ -37,7 +37,7 @@
         }
 
         h3 {
-            font-size: 200px; /* Reduzi o tamanho para melhorar a legibilidade */
+            font-size: 450px; /* Mantive o tamanho grande */
             text-align: center;
             color: rgb(255, 254, 254);
             margin: 0;
@@ -194,7 +194,7 @@
                     }
 
                     // Adiciona a classe 'negativo' ao elemento h3 quando o tempo é negativo
-                    if (segundoAtual <= 0 && minutoAtual <= 0) {
+                    if (minutoAtual < 0 || (minutoAtual === 0 && segundoAtual < 0)) {
                         cronometro.classList.add('negativo');
                     }
                 }
